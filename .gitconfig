@@ -1,0 +1,7 @@
+[user]
+	name = Víctor Rodríguez
+	email = vhugo642@gmail.com
+[color]
+	ui = true
+[url "git@gitlab.com"]
+	insteadOf = https://gitlab.com/

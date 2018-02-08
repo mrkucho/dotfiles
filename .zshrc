@@ -44,5 +44,5 @@ antigen apply
 alias code="code-oss . &!"
 
 # Go Settings
-export GOPATH="/media/hdd1/Go"
+export GOPATH="/media/hdd1/Proyectos/go"
 export PATH="$PATH:$GOPATH/bin"

@@ -4,7 +4,7 @@
 
 # Exports
 export PATH="$(python3 -m site --user-base)/bin:$PATH"
-export PATH=/usr/local/smlnj/bin:"$PATH"
+export PATH=$PATH:/usr/local/bin:~/.local/bin:/opt/certbot/
 . $HOME/.asdf/asdf.sh
 
 # Integrations
@@ -14,7 +14,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 alias dab='docker-app bash'
 alias dup='docker-compose up -d'
 alias dar='docker-app rails'
-alias dps='docker-compose ps'
+alias dcps='docker-compose ps'
+alias dps='docker ps --format "table {{ .ID }}\t{{.Names}}\t{{.Status}}"'
 alias dst='docker-compose stop'
 alias dap='docker-app up'
 alias ddlog='docker compose -f docker-compose.dev.yml logs -f --tail=1000'
@@ -69,6 +70,9 @@ autoload -Uz _zinit
 # - - - - - - - - - - - - - - - - - - - -
 # Plugins
 # - - - - - - - - - - - - - - - - - - - -
+
+# navi
+eval "$(navi widget zsh)"
 
 zinit wait lucid light-mode for \
       OMZ::lib/compfix.zsh \

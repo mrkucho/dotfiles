@@ -4,15 +4,20 @@
 
 # Exports
 export PATH="$(python3 -m site --user-base)/bin:$PATH"
+export PATH=/usr/local/smlnj/bin:"$PATH"
 . $HOME/.asdf/asdf.sh
 
+# Integrations
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Aliases
 alias dab='docker-app bash'
 alias dup='docker-compose up -d'
 alias dar='docker-app rails'
 alias dps='docker-compose ps'
+alias dst='docker-compose stop'
 alias dap='docker-app up'
+alias ddlog='docker compose -f docker-compose.dev.yml logs -f --tail=1000'
 alias dlog='docker-compose logs -f --tail=1000'
 alias dstop='docker stop $(docker ps -aq)'
 alias gst='git status'
@@ -28,29 +33,6 @@ setopt path_dirs                # Perform Path Search Even On Command Names With
 setopt auto_menu                # Show Completion Menu On A Successive Tab Press.
 setopt auto_list                # Automatically List Choices On Ambiguous Completion.
 setopt auto_param_slash         # If Completed Parameter Is A Directory, Add A Trailing Slash.
-setopt menu_complete            # Do Not Autoselect The First Completion Entry.
-unsetopt flow_control           # Disable Start/Stop Characters In Shell Editor.
-
-# Zstyle.
-zstyle ':completion:*:*:*:*:*' menu select
-zstyle ':completion:*:matches' group 'yes'
-zstyle ':completion:*:options' description 'yes'
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' verbose yes
-zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "$HOME/.zcompcache"
-zstyle ':completion:*' list-colors $LS_COLORS
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
-zstyle ':completion:*' rehash true
 
 # History.
 HISTFILE=".zhistory"
@@ -59,7 +41,6 @@ SAVEHIST=5000
 setopt appendhistory notify
 unsetopt beep nomatch
 
-setopt bang_hist                # Treat The '!' Character Specially During Expansion.
 setopt inc_append_history       # Write To The History File Immediately, Not When The Shell Exits.
 setopt share_history            # Share History Between All Sessions.
 setopt hist_expire_dups_first   # Expire A Duplicate Event First When Trimming History.
@@ -92,13 +73,7 @@ autoload -Uz _zinit
 zinit wait lucid light-mode for \
       OMZ::lib/compfix.zsh \
       OMZ::lib/completion.zsh \
-      OMZ::lib/functions.zsh \
-      OMZ::lib/diagnostics.zsh \
       OMZ::lib/git.zsh \
-      OMZ::lib/grep.zsh \
-      OMZ::lib/key-bindings.zsh \
-      OMZ::lib/misc.zsh \
-      OMZ::lib/spectrum.zsh \
       OMZ::lib/termsupport.zsh \
       OMZ::plugins/git-auto-fetch/git-auto-fetch.plugin.zsh \
   atinit"zicompinit; zicdreplay" \
@@ -110,12 +85,14 @@ zinit wait lucid light-mode for \
   as"completion" \
       OMZ::plugins/docker/_docker \
       OMZ::plugins/composer/composer.plugin.zsh \
-      OMZ::plugins/thefuck/thefuck.plugin.zsh
 
 # Recommended Be Loaded Last
 zinit load zsh-users/zsh-completions
+
 # append asdf completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # - - - - - - - - - - - - - - - - - - - -
 # Theme / Prompt Customization
